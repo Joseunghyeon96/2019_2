@@ -50,8 +50,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     RegisterClassEx(&wc);
 
-    hWnd = CreateWindowEx(NULL, L"WindowClass", L"Our Direct3D Program",
-                          WS_EX_TOPMOST | WS_POPUP, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
+    hWnd = CreateWindowEx(NULL, L"WindowClass", L"Graphics 2D Game",
+				WS_OVERLAPPEDWINDOW, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
                           NULL, NULL, hInstance, NULL);
 
     ShowWindow(hWnd, nCmdShow);
@@ -126,7 +126,7 @@ void initD3D(HWND hWnd)
     D3DPRESENT_PARAMETERS d3dpp;
 
     ZeroMemory(&d3dpp, sizeof(d3dpp));
-    d3dpp.Windowed = FALSE;
+    d3dpp.Windowed = TRUE;
     d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
     d3dpp.hDeviceWindow = hWnd;
     d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
@@ -145,7 +145,7 @@ void initD3D(HWND hWnd)
     D3DXCreateSprite(d3ddev, &d3dspt);    // create the Direct3D Sprite object
 
     D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
-                                L"Panel3.png",    // the file name
+                                L"white.png",    // the file name
                                 D3DX_DEFAULT,    // default width
                                 D3DX_DEFAULT,    // default height
                                 D3DX_DEFAULT,    // no mip mapping
@@ -305,16 +305,16 @@ void render_frame(void)
  //   // calculate the x-position
  //   int xpos = frame * 182 + 1;
 
-	//RECT part;
- //   SetRect(&part, xpos, 0, xpos + 181, 128);
- //   D3DXVECTOR3 center(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
- //   D3DXVECTOR3 position(150.0f, 50.0f, 0.0f);    // position at 50, 50 with no depth
- //   d3dspt->Draw(sprite, &part, &center, &position, D3DCOLOR_ARGB(127, 255, 255, 255));
-	//
+	RECT part0;
+    SetRect(&part0, 0, 0, 1440, 1200);
+    D3DXVECTOR3 center0(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
+    D3DXVECTOR3 position0(0.0f, 0.0f, 0.0f);    // position at 50, 50 with no depth
+    d3dspt->Draw(sprite, &part0, &center0, &position0, D3DCOLOR_ARGB(127, 255, 255, 255));
+	
 
 	//주인공 
 	RECT part;
-	SetRect(&part, 0, 0, 64, 64);
+	SetRect(&part, 0, 0, 128,128);
 	D3DXVECTOR3 center(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
 	D3DXVECTOR3 position=D3DXVECTOR3(hero.getXPos(), hero.getYPos(), 0.0f);    // position at 50, 50 with no depth
 	d3dspt->Draw(sprite_hero, &part, &center, &position, D3DCOLOR_ARGB(255, 255, 255, 255));
@@ -323,9 +323,9 @@ void render_frame(void)
 	if (bullet.bShow == true)
 	{
 		RECT part1;
-		SetRect(&part1, 0, 0, 64, 64);
+		SetRect(&part1, 0, 0, 32, 32);
 		D3DXVECTOR3 center1(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
-		D3DXVECTOR3 position1(bullet.getXPos(), bullet.getYPos(), 0.0f);    // position at 50, 50 with no depth
+		D3DXVECTOR3 position1(bullet.getXPos()+48, bullet.getYPos(), 0.0f);    // position at 50, 50 with no depth
 		d3dspt->Draw(sprite_bullet, &part1, &center1, &position1, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
 
@@ -356,11 +356,12 @@ void render_frame(void)
 // this is the function that cleans up Direct3D and COM
 void cleanD3D(void)
 {
-    sprite->Release();
+
     d3ddev->Release();
     d3d->Release();
 
 	//객체 해제 
+	sprite->Release();
     sprite_hero->Release();
 	sprite_enemy->Release();
 	sprite_bullet->Release();

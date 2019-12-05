@@ -10,8 +10,8 @@
 using namespace std;
 
 // define the screen resolution and keyboard macros
-#define SCREEN_WIDTH  640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH  1440
+#define SCREEN_HEIGHT 1200
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 #define KEY_UP(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
 #define ENEMY_NUM 10 
