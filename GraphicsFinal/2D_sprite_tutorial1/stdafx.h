@@ -11,8 +11,8 @@
 using namespace std;
 
 // define the screen resolution and keyboard macros
-#define SCREEN_WIDTH  1440
-#define SCREEN_HEIGHT 1000
+#define SCREEN_WIDTH  1024
+#define SCREEN_HEIGHT 1024
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 #define KEY_UP(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
 #define ENEMY_NUM 10 
@@ -31,7 +31,8 @@ extern LPD3DXSPRITE d3dspt;    // the pointer to our Direct3D Sprite interface
 extern LPDIRECT3DTEXTURE9 sprite;    // the pointer to the sprite
 extern LPDIRECT3DTEXTURE9 sprite_hero;    // the pointer to the sprite
 extern LPDIRECT3DTEXTURE9 sprite_enemy;    // the pointer to the spriteextern 
-extern LPDIRECT3DTEXTURE9 sprite_bullet;
+extern LPDIRECT3DTEXTURE9* sprite_bullet;
 extern LPDIRECT3DTEXTURE9 spriteBoss;
+extern LPDIRECT3DTEXTURE9 bulletExplosion;
 enum { MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT };
 

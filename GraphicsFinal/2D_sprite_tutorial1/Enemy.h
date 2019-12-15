@@ -3,7 +3,6 @@
 class Enemy :
 	public GameObject
 {
-	int life;
 	
 public:
 	Enemy();

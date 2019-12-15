@@ -17,6 +17,8 @@ void Boss::init(float x, float y)
 {
 	enabled = true;
 	easyPattern1 = GetTickCount();
+	imageSizeX = 512;
+	imageSizeY = 256;
 	ySpeed = 2.5f;
 	xSpeed = 3.0f;
 	life = 800;
@@ -30,10 +32,7 @@ void Boss::update()
 	
 	DWORD playTime = GetTickCount();
 	move();
-	if (hit())
-	{
-		life--;
-	}
+	hit();
 	if (life < 780) {
 		if ((playTime - easyPattern1) > 6000)
 		{
@@ -51,7 +50,7 @@ void Boss::move()
 	{
 		xSpeed *= -1;
 	}
-	else if (xPos > 800)
+	else if (xPos > 512)
 	{
 		xSpeed *= -1;
 	}
@@ -60,23 +59,25 @@ void Boss::move()
 void Boss::spawnEnemy()
 {
 	srand(time(NULL));
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 15; i++)
 	{
 		Enemy* enemy = new Enemy;
-		enemy->init((float)(rand() % SCREEN_WIDTH), rand() % 200);
+		enemy->init((float)(rand() % 950), rand() % 200);
 	}
 }
-bool Boss::hit()
+void Boss::hit()
 {
 	for (auto bullet : bullets) // 모든총알과 충돌체크
 	{
-		if (bullet->getXPos() > xPos && bullet->getXPos() < xPos + 500 &&
-			bullet->getYPos() > yPos && bullet->getYPos() < yPos + 256)
+		if (bullet->getEnabled() == false) continue;
+
+		if (onCollision(bullet) == true)
 		{
+			decreaseLife(bullet->getDamage());
 			bullet->setActive(false);
-			return true;
+			bullet->setExplosion(true);
+			return;
 		}
 	}
-
-	return false;
+	return;
 }

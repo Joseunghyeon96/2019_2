@@ -11,7 +11,8 @@ LPD3DXSPRITE d3dspt;    // the pointer to our Direct3D Sprite interface
 LPDIRECT3DTEXTURE9 sprite;    // the pointer to the sprite
 LPDIRECT3DTEXTURE9 sprite_hero;    // the poi`	`nter to the sprite
 LPDIRECT3DTEXTURE9 sprite_enemy;    // the pointer to the sprite
-LPDIRECT3DTEXTURE9 sprite_bullet;
+LPDIRECT3DTEXTURE9* sprite_bullet;
+LPDIRECT3DTEXTURE9 bulletExplosion;
 LPDIRECT3DTEXTURE9 spriteBoss;
 
 // function prototypes
@@ -85,7 +86,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     // clean up DirectX and COM
     cleanD3D();
-	MG->ReleaseSingleton();
+	MG->Release();
 
     return msg.wParam;
 }
@@ -122,6 +123,7 @@ void initD3D(HWND hWnd)
     d3dpp.BackBufferWidth = SCREEN_WIDTH;
     d3dpp.BackBufferHeight = SCREEN_HEIGHT;
 
+	sprite_bullet = new LPDIRECT3DTEXTURE9[3];
 
     // create a device class using this information and the info from the d3dpp stuct
     d3d->CreateDevice(D3DADAPTER_DEFAULT,
@@ -134,7 +136,7 @@ void initD3D(HWND hWnd)
     D3DXCreateSprite(d3ddev, &d3dspt);    // create the Direct3D Sprite object
 
     D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
-                                L"white.png",    // the file name
+                                L"MainBackground.jpg",    // the file name
                                 D3DX_DEFAULT,    // default width
                                 D3DX_DEFAULT,    // default height
                                 D3DX_DEFAULT,    // no mip mapping
@@ -181,7 +183,7 @@ void initD3D(HWND hWnd)
 
 
 	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
-                                L"bullet.png",    // the file name
+                                L"bullet1.png",    // the file name
                                 D3DX_DEFAULT,    // default width
                                 D3DX_DEFAULT,    // default height
                                 D3DX_DEFAULT,    // no mip mapping
@@ -193,8 +195,37 @@ void initD3D(HWND hWnd)
                                 D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
                                 NULL,    // no image info struct
                                 NULL,    // not using 256 colors
-                                &sprite_bullet);    // load to sprite
+                                &sprite_bullet[0]);    // load to sprite
 
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"bullet2.png",    // the file name
+		D3DX_DEFAULT,    // default width
+		D3DX_DEFAULT,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_bullet[1]);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"bullet3.png",    // the file name
+		D3DX_DEFAULT,    // default width
+		D3DX_DEFAULT,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_bullet[2]);    // load to sprite
 	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
 								L"Boss.png",    // the file name
 								D3DX_DEFAULT,    // default width
@@ -210,6 +241,20 @@ void initD3D(HWND hWnd)
 		                        NULL,    // not using 256 colors
 								&spriteBoss);    // load to sprite
 
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"explosion.png",    // the file name
+		D3DX_DEFAULT,    // default width
+		D3DX_DEFAULT,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&bulletExplosion);    // load to sprite
 
     return;
 }
@@ -227,7 +272,10 @@ void cleanD3D(void)
 	sprite->Release();
     sprite_hero->Release();
 	sprite_enemy->Release();
-	sprite_bullet->Release();
+	for (int i = 0; i < 3; i++)
+	{
+		sprite_bullet[i]->Release();
+	}
 	spriteBoss->Release();
 
     return;

@@ -25,22 +25,7 @@ float Vector2::Distance(Vector2& a, const Vector2& b)
 int Random_Range(int min, int max)
 {
 	
-	if (min < 0)
-	{
-		return rand() % ((max*2)+1) + min;
-	}
-	else if (min > 0)
-	{
-		int value = rand() % (max+1);
-		if (value < min)
-			return value + min;
-		else
-			return value;
-	}
-	else
-	{
-		return rand() % (max+1);
-	}
+	return (int)(rand() % (max - min + 1)) + min;
 
 }
 

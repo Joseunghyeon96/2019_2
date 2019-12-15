@@ -5,6 +5,7 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Boss.h"
+#include "UI.h"
 
 MainGame::MainGame()
 {
@@ -24,6 +25,9 @@ void MainGame::initGame()
 	//보스초기화 
 	boss = new Boss;
 	boss->init(400, -200);
+
+	ui = UI::GetSingleton();
+	ui->init(hero,boss);
 }
 
 void MainGame::renderFrame()
@@ -38,62 +42,54 @@ void MainGame::renderFrame()
 
 	d3dspt->Begin(D3DXSPRITE_ALPHABLEND);    // // begin sprite drawing with transparency
 
-	//UI 창 렌더링 
-
-
-	//
-	//static int frame = 21;    // start the program on the final frame
- //   if(KEY_DOWN(VK_SPACE)) frame=0;     // when the space key is pressed, start at frame 0
- //   if(frame < 21) frame++;     // if we aren't on the last frame, go to the next frame
-
- //   // calculate the x-position
- //   int xpos = frame * 182 + 1;
 
 	RECT part0;
-	SetRect(&part0, 0, 0, 1440, 1200);
+	SetRect(&part0, 0, 0, 1024, 1024);
 	D3DXVECTOR3 center0(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
 	D3DXVECTOR3 position0(0.0f, 0.0f, 0.0f);    // position at 50, 50 with no depth
-	d3dspt->Draw(sprite, &part0, &center0, &position0, D3DCOLOR_ARGB(127, 255, 255, 255));
+	d3dspt->Draw(sprite, &part0, &center0, &position0, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 
 	//주인공 
 	RECT part;
-	SetRect(&part, 0, 0, 128, 128);
+	SetRect(&part, 0, 0, 64, 64);
 	D3DXVECTOR3 center(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
 	D3DXVECTOR3 position = D3DXVECTOR3(hero->getXPos(), hero->getYPos(), 0.0f);    // position at 50, 50 with no depth
 	d3dspt->Draw(sprite_hero, &part, &center, &position, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	////총알 
-
-	RECT part1;
-	SetRect(&part1, 0, 0, 12, 27);
-	D3DXVECTOR3 center1(0.0f, 0.0f, 0.0f);
 	for (Bullet* bullet : bullets) {
-		D3DXVECTOR3 position1(bullet->getXPos(), bullet->getYPos(), 0.0f);    // position at 50, 50 with no depth
-		d3dspt->Draw(sprite_bullet, &part1, &center1, &position1, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+		RECT part1;
+		D3DXVECTOR3 center1(0.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 position1(bullet->getXPos(), bullet->getYPos(), 0.0f);
+		switch (bullet->getDamage())
+		{
+
+		case 1:
+			SetRect(&part1, 0, 0, 16, 16);
+			if (bullet->getEnabled())
+				d3dspt->Draw(sprite_bullet[0], &part1, &center1, &position1, D3DCOLOR_ARGB(255, 255, 255, 255));
+			break;
+		case 2:
+			SetRect(&part1, 0, 0, 32, 32);
+			if (bullet->getEnabled())
+				d3dspt->Draw(sprite_bullet[1], &part1, &center1, &position1, D3DCOLOR_ARGB(255, 255, 255, 255));
+			break;
+		case 3:
+			SetRect(&part1, 0, 0, 64, 64);
+			if (bullet->getEnabled())
+				d3dspt->Draw(sprite_bullet[2], &part1, &center1, &position1, D3DCOLOR_ARGB(255, 255, 255, 255));
+			break;
+		}
 	}
+
 	//보스
 	RECT bossRect;
+	SetRect(&bossRect, 0, 0, 512, 256);
 	D3DXVECTOR3 bossCenter(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
 	D3DXVECTOR3 bossPos(boss->getXPos(), boss->getYPos(), 0.0f);    // position at 50, 50 with no depth
-	d3dspt->Draw(spriteBoss, NULL, &bossCenter, &bossPos, D3DCOLOR_ARGB(255, 255, 255, 255));
-
-	//보스 HP
-	RECT bossHpBar;
-	SetRect(&bossHpBar, 0, 0, 800, 8);
-	D3DXVECTOR3 bossHpCenter(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
-	D3DXVECTOR3 hpBarPos(300, 3, 0.0f);
-	d3dspt->Draw(sprite, &bossHpBar, &bossHpCenter, &hpBarPos, D3DCOLOR_ARGB(255, 255, 0, 0));
-
-	RECT bossHp;
-	SetRect(&bossHp, 0, 0, 1, 8);
-	for (int i = 0; i < boss->getLife(); i++)
-	{
-		D3DXVECTOR3 hpPos(300+i, 3, 0.0f);
-		d3dspt->Draw(sprite, &bossHp, &bossHpCenter, &hpPos, D3DCOLOR_ARGB(255, 0 ,255, 0));
-	}
-
-	
+	d3dspt->Draw(spriteBoss,&bossRect, &bossCenter, &bossPos, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	////적 
 	RECT part2;
@@ -105,6 +101,21 @@ void MainGame::renderFrame()
 		d3dspt->Draw(sprite_enemy, &part2, &center2, &position2, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
 
+	//폭발
+	RECT explosionRect;
+	SetRect(&explosionRect, 0, 0, 64, 64);
+	D3DXVECTOR3 explosionCenter(0.0f, 0.0f, 0.0f);
+	for (Bullet* bullet : bullets) {
+		D3DXVECTOR3 explosionPos(bullet->getXPos() - 32, bullet->getYPos(), 0.0f);    // position at 50, 50 with no depth
+		if (bullet->getExplosion()) {
+			if (bullet->getRePaint() == true) {
+				d3dspt->Draw(bulletExplosion, &explosionRect, &explosionCenter, &explosionPos, D3DCOLOR_ARGB(255, 255, 255, 255));
+				bullet->setRePaint(true);
+			}
+		}
+	}
+
+	ui->renderUI(d3dspt);
 
 	d3dspt->End();    // end sprite drawing
 
@@ -115,10 +126,22 @@ void MainGame::renderFrame()
 	return;
 }
 
+void MainGame::Release()
+{
+	this->ReleaseSingleton();
+	ui->ReleaseSingleton();
+}
+
 void MainGame::update()
 {
 	//주인공 처리 
 	hero->update();
+
+	//총알 처리 
+	auto& bullets = GameObject::getBullets();
+	for (Bullet* bullet : bullets) {
+		bullet->update();
+	}
 
 	//보스
 	boss->update();
@@ -128,11 +151,6 @@ void MainGame::update()
 	for (Enemy* enemy : enemies)
 	{
 		enemy->update();
-	}
-	//총알 처리 
-	auto& bullets = GameObject::getBullets();
-	for (Bullet* bullet : bullets) {
-		bullet->update();
 	}
 
 }

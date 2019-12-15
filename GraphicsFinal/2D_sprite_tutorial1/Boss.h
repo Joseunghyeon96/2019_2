@@ -3,7 +3,6 @@
 class Boss :
 	public GameObject
 {
-	int life;
 	float ySpeed;
 	float xSpeed;
 	DWORD easyPattern1;
@@ -13,7 +12,7 @@ public:
 	void init(float x, float y);
 	void update();
 	void move();
-	bool hit();
+	void hit();
 	int getLife() { return life; }
 	void spawnEnemy();
 };

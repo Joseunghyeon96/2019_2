@@ -17,6 +17,7 @@ void Enemy::init(float x, float y)
 	enabled = true;
 	life = 3;
 	enemies.push_back(this);
+	imageSizeX = 64; imageSizeY = 64;
 	xPos = x;
 	yPos = y;
 
@@ -41,11 +42,13 @@ void Enemy::update()
 
 	for (auto bullet : bullets) // 모든총알과 충돌체크
 	{
-		if (bullet->getXPos() > xPos && bullet->getXPos() < xPos + 52 &&
-			bullet->getYPos() > yPos && bullet->getYPos() < yPos + 64)
+		if (bullet->getEnabled() == false) continue;
+		if (onCollision(bullet) == true)
 		{
-			life--;
+
+			decreaseLife(bullet->getDamage());
 			bullet->setActive(false);
+			bullet->setExplosion(true);
 			break;
 		}
 	}
