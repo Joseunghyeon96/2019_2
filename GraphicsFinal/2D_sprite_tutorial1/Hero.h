@@ -12,5 +12,6 @@ public:
 	void super_fire();
 	void move(int i);
 	void init(float x, float y);
+	void update();
 };
 

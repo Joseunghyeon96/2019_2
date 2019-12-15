@@ -12,7 +12,6 @@
 
 GameEngine* GameEngine::instance = nullptr;
 
-
 GameEngine & GameEngine::getInstance()
 {
 	if (instance == nullptr) {
@@ -21,11 +20,11 @@ GameEngine & GameEngine::getInstance()
 	return *instance;
 }
 
+
 void GameEngine::mainLoop()
 {
-
 	auto& objs = GameObject::gameObjects;
-
+	
 	GameObject rect("rect");
 	rect.addComponent<RectScript>();
 	objs.push_back(&rect);
@@ -85,8 +84,20 @@ void GameEngine::mainLoop()
 		for (auto obj : objs)
 		{
 			obj->traverseDraw();
+		
 		}
 		screen.render();
+
+		int i = 0;
+		for (auto obj : objs)
+		{
+			Borland::gotoxy(Vector2(20, 50));
+			i++;
+			if (i > 180)
+			{
+				printf("%d", i);
+			}
+		}
 		Sleep(1000);
 
 		Input::EndOfFrame();

@@ -133,6 +133,8 @@ void GameObject::destroy(GameObject * gameObject)
 		if (obj == gameObject)
 		{
 			gameObjects.erase(gameObjects.begin()+i);
+			delete obj;
+			obj = nullptr;
 			return;
 		}
 		i++;
