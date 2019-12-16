@@ -1,19 +1,15 @@
 #pragma once
 #include "GameObject.h"
-class Enemy :
+class EnemyBullet :
 	public GameObject
 {
-	DWORD shotDelayEnd;
-	DWORD shotDelayStart;
 public:
-	Enemy();
-	~Enemy();
+	EnemyBullet();
+	~EnemyBullet();
 
 	void init(float x, float y);
-	void fire();
 	void move();
 	void update();
-	void dead();
-
+	void destroy(GameObject* gameObject);
 };
 

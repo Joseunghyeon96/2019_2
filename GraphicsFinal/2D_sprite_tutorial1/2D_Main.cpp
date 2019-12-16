@@ -12,6 +12,7 @@ LPDIRECT3DTEXTURE9 sprite;    // the pointer to the sprite
 LPDIRECT3DTEXTURE9 sprite_hero;    // the poi`	`nter to the sprite
 LPDIRECT3DTEXTURE9 sprite_enemy;    // the pointer to the sprite
 LPDIRECT3DTEXTURE9* sprite_bullet;
+LPDIRECT3DTEXTURE9 enemyBullet;
 LPDIRECT3DTEXTURE9 bulletExplosion;
 LPDIRECT3DTEXTURE9 spriteBoss;
 
@@ -256,6 +257,21 @@ void initD3D(HWND hWnd)
 		NULL,    // not using 256 colors
 		&bulletExplosion);    // load to sprite
 
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"enemyBullet.png",    // the file name
+		D3DX_DEFAULT_NONPOW2,    // default width
+		D3DX_DEFAULT_NONPOW2,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&enemyBullet);    // load to sprite
+
     return;
 }
 
@@ -272,6 +288,8 @@ void cleanD3D(void)
 	sprite->Release();
     sprite_hero->Release();
 	sprite_enemy->Release();
+	bulletExplosion->Release();
+	enemyBullet->Release();
 	for (int i = 0; i < 3; i++)
 	{
 		sprite_bullet[i]->Release();

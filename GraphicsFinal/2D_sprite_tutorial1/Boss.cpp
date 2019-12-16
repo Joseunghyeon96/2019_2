@@ -34,7 +34,7 @@ void Boss::update()
 	move();
 	hit();
 	if (life < 780) {
-		if ((playTime - easyPattern1) > 6000)
+		if ((playTime - easyPattern1) > 6000) //6段原陥 社発
 		{
 			easyPattern1 = GetTickCount();
 			spawnEnemy();
@@ -59,10 +59,10 @@ void Boss::move()
 void Boss::spawnEnemy()
 {
 	srand(time(NULL));
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		Enemy* enemy = new Enemy;
-		enemy->init((float)(rand() % 950), rand() % 200);
+		enemy->init(50 + i*150, 30);
 	}
 }
 void Boss::hit()

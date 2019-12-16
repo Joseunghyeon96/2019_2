@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Hero.h"
 #include "Enemy.h"
+#include "EnemyBullet.h"
 #include "Bullet.h"
 
 
@@ -48,7 +49,7 @@ void Hero::move(int i)
 		break;
 
 	case MOVE_DOWN:
-		if(yPos<SCREEN_HEIGHT-128)
+		if(yPos<SCREEN_HEIGHT-328)
 		yPos += 6;
 		break;
 
@@ -78,24 +79,44 @@ void Hero::init(float x, float y)
 	shotDelayEnd = GetTickCount();
 	shotDelayStart=GetTickCount();
 }
-
-bool Hero::collisionCheck()
+void Hero::collisionCheck()
 {
 	for (auto enemy : enemies) //모든적과 충돌체크
 	{
 		if (onCollision(enemy) == true) {
 			destroy(enemy); // 충돌된 적 없어짐
-			return true;
+			life--;
+			break;
 		}
 	}
 
-	return false;
+
+	for (auto enemyBullet : enemyBullets) //모든적 총알 과 충돌체크
+	{
+		if (onCollision(enemyBullet) == true) {
+			enemyBullet->setActive(false); // 충돌된 적 총알 없어짐
+			life--;
+			break;
+		}
+	}
 }
 
 
 
 void Hero::update()
 {
+	if (enabled == false)
+	{
+		if (KEY_DOWN(0x52))
+		{
+			enabled = true;
+			power = 1;
+			life = 3;
+			shotDelayEnd = GetTickCount();
+			shotDelayStart = GetTickCount();
+		}
+		return;
+	}
 	shotDelayEnd = GetTickCount();
 
 	if (KEY_DOWN(VK_UP))
@@ -114,9 +135,8 @@ void Hero::update()
 		if(shotDelayEnd-shotDelayStart>200)
 		fire();
 	}
-	if (collisionCheck()) //충돌이 있으면 라이프1감소
-	{
-		if(life>1)
-		life--;
-	}
+
+	collisionCheck();
+	if (life < 1)
+		enabled = false;
 }

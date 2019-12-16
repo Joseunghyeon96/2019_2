@@ -4,6 +4,7 @@
 #include "Hero.h"
 #include "Bullet.h"
 #include "Enemy.h"
+#include "EnemyBullet.h"
 #include "Boss.h"
 #include "UI.h"
 
@@ -35,6 +36,7 @@ void MainGame::renderFrame()
 
 	auto& enemies = GameObject::getEnemies();
 	auto& bullets = GameObject::getBullets();
+	auto& enemyBullets = GameObject::getEnemyBullets();
 	// clear the window to a deep blue
 	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
@@ -100,6 +102,16 @@ void MainGame::renderFrame()
 		D3DXVECTOR3 position2(enemy->getXPos(), enemy->getYPos(), 0.0f);    // position at 50, 50 with no depth
 		d3dspt->Draw(sprite_enemy, &part2, &center2, &position2, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
+	//Àû ÃÑ¾Ë
+
+	RECT eBulletRect;
+	SetRect(&eBulletRect, 0, 0, 20, 20);
+	D3DXVECTOR3 eBulletCenter(0.0f, 0.0f, 0.0f);
+	for (EnemyBullet* eBullet : enemyBullets)
+	{
+		D3DXVECTOR3 eBulletPos(eBullet->getXPos(), eBullet->getYPos(), 0.0f);    // position at 50, 50 with no depth
+		d3dspt->Draw(enemyBullet, &eBulletRect, &eBulletCenter, &eBulletPos, D3DCOLOR_ARGB(255, 255, 255, 255));
+	}
 
 	//Æø¹ß
 	RECT explosionRect;
@@ -151,6 +163,12 @@ void MainGame::update()
 	for (Enemy* enemy : enemies)
 	{
 		enemy->update();
+	}
+
+	auto& enemyBullets = GameObject::getEnemyBullets();
+	for (EnemyBullet* eBullet : enemyBullets)
+	{
+		eBullet->update();
 	}
 
 }

@@ -16,7 +16,7 @@ public:
 	int getPower() { return power; }
 	void move(int i);
 	void init(float x, float y);
-	bool collisionCheck();
+	void collisionCheck();
 	void update();
 };
 

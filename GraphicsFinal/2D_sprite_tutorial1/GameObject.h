@@ -2,6 +2,7 @@
 
 class Enemy;
 class Bullet;
+class EnemyBullet;
 
 class GameObject
 {
@@ -18,6 +19,7 @@ protected:
 	float imageSizeY;
 	static vector<Enemy*> enemies;
 	static vector<Bullet*> bullets;
+	static vector<EnemyBullet*> enemyBullets;
 
 
 public:
@@ -29,7 +31,7 @@ public:
 	void setActive(bool enabled) { this->enabled = enabled; }
 	float getSizeX() { return imageSizeX; }
 	float getSizeY() { return imageSizeY; }
-	void destroy(GameObject* gameObject);
+	virtual void destroy(GameObject* gameObject);
 	bool getEnabled() { return enabled; }
 	virtual void decreaseLife(int x);
 	virtual bool onCollision(GameObject* gameObject);
@@ -37,4 +39,5 @@ public:
 	virtual void update();
 	static vector<Enemy*> getEnemies();
 	static vector<Bullet*> getBullets();
+	static vector<EnemyBullet*> getEnemyBullets();
 };

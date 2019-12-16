@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "GameObject.h"
 #include "Enemy.h"
+#include "EnemyBullet.h"
 #include "Bullet.h"
 
 vector<Enemy*> GameObject::enemies;
 vector<Bullet*> GameObject::bullets;
+vector<EnemyBullet*> GameObject::enemyBullets;
 
 GameObject::GameObject()
 {
@@ -138,4 +140,9 @@ vector<Enemy*> GameObject::getEnemies()
 vector<Bullet*> GameObject::getBullets()
 {
 	return bullets;
+}
+
+vector<EnemyBullet*> GameObject::getEnemyBullets()
+{
+	return enemyBullets;
 }
