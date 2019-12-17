@@ -34,31 +34,23 @@ void GameObject::destroy(GameObject * gameObject)
 	int i = 0;
 	if (dynamic_cast<Enemy *>(gameObject) != nullptr)
 	{
-		for (auto obj : enemies)
-		{
-			if (obj == gameObject)
-			{
-				enemies.erase(enemies.begin() + i);
-				delete obj;
-				obj = nullptr;
-				return;
-			}
-			i++;
-		}
+		enemies.erase(remove_if(enemies.begin(), enemies.end(),
+			[gameObject](GameObject* obj) {return obj == gameObject;})
+			, enemies.end());
+
+		delete gameObject;
+		gameObject = nullptr;
+		return;
 	}
 	if (dynamic_cast<Bullet *>(gameObject) != nullptr)
 	{
-		for (auto obj : bullets)
-		{
-			if (obj == gameObject)
-			{
-				bullets.erase(bullets.begin() + i);
-				delete obj;
-				obj = nullptr;
-				return;
-			}
-			i++;
-		}
+		bullets.erase(remove_if(bullets.begin(), bullets.end(),
+			[gameObject](GameObject* obj) {return obj == gameObject; })
+			, bullets.end());
+
+		delete gameObject;
+		gameObject = nullptr;
+		return;
 	}
 }
 

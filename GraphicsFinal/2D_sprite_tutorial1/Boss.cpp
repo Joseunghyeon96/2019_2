@@ -6,6 +6,7 @@
 #include "EnemyBullet.h"
 #include "Bullet.h"
 
+
 Boss::Boss()
 {
 }
@@ -18,7 +19,6 @@ Boss::~Boss()
 void Boss::init(float x, float y,Hero* hero)
 {
 	enabled = true;
-	hard_1 = false;
 	hard_3 = false;
 	hard_4 = false;
 	hard_5 = false;
@@ -29,8 +29,8 @@ void Boss::init(float x, float y,Hero* hero)
 	pattern = GetTickCount();
 	imageSizeX = 80;
 	imageSizeY = 136;
-	ySpeed = 5.5f;
-	xSpeed = 6.0f;
+	ySpeed = 2.5f;
+	xSpeed = 3.0f;
 	life = 800;
 	D3DXVECTOR2 moveDir(randomRange(-10, 10), randomRange(-10, 10));
 	D3DXVec2Normalize(&moveDir, &moveDir);
@@ -43,6 +43,12 @@ void Boss::update()
 {
 	if (enabled == false) return;
 	
+
+	if(life<0) 
+	{
+		enabled = false;
+	}
+
 #pragma region 패턴 테스트
 	if (KEY_DOWN(VK_NUMPAD0)) {
 		hardPattern_2();
@@ -82,9 +88,8 @@ void Boss::update()
 
 
 	DWORD playTime = GetTickCount();
-	if (hard_6 == false) // 6번째 패턴중일땐 안움직임
-		move();
-
+	//if (hard_6 == false) // 6번째 패턴중일땐 안움직임
+	move();
 	hit();
 
 	if (life <= 400) hardPattern_2();
@@ -168,24 +173,14 @@ void Boss::update()
 			case 0:
 				easyPattern_1();
 				easyPattern_2();
-				hard_1 = false;
 				break;
 			case 1:
 				easyPattern_3();
-				hard_1 = false;
 				break;
-			case 2:  // bool hard_1 변수로 하드패턴1이 연속적으로 나오는것을 방지
-				if (hard_1)
-				{
-					easyPattern_3();
-					hard_1= false;
-					break;
-				}
-				else if (hard_1 == false) {
-					hardPattern_1();
-					break;
-					hard_1 = true;
-				}
+			case 2:
+				hardPattern_1();
+				break;
+
 			}
 		}
 	}
@@ -568,11 +563,7 @@ void Boss::hardPattern_5()
 }
 void Boss::hardPattern_6()
 {
-	//static int i = 0;
-	//i++;
-	//if (i % 15 != 0) {
-	//	return;
-	//}
+
 	static int start = 0;
 	for (int radian = 0; radian < 21; radian++)
 	{
@@ -587,12 +578,12 @@ void Boss::hardPattern_6()
 		start = 0;
 		hard_6 = false;
 	}
-	//i = 0;
 }
 void Boss::hit()
 {
 	for (auto bullet : bullets) // 모든총알과 충돌체크
 	{
+		if (bullet->getSpecial()) continue;
 		if (bullet->getEnabled() == false) continue;
 
 		if (onCollision(bullet) == true)
@@ -606,3 +597,4 @@ void Boss::hit()
 	}
 	return;
 }
+

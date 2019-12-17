@@ -5,6 +5,7 @@ class Enemy :
 {
 	D3DXVECTOR2 bulletDir;
 	D3DXVECTOR2 moveDir;
+	bool onCol;
 	DWORD shotDelayEnd;
 	DWORD shotDelayStart;
 public:
@@ -16,6 +17,8 @@ public:
 	void move();
 	void update();
 	void dead();
+	void setCol(bool key) { onCol = key; }
+	bool getCol() { return onCol; }
 
 };
 

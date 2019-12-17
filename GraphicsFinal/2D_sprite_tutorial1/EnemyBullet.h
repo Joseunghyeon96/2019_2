@@ -5,6 +5,7 @@ class EnemyBullet :
 {
 	D3DXVECTOR2 direction;
 	bool curve;
+	bool onCol;
 	float speed;
 	float curveAngle;
 	float startAngle;
@@ -17,6 +18,8 @@ public:
 	void init(float x, float y, D3DXVECTOR2 dir, float speed,bool curve,float angle);
 	void move();
 	void update();
+	void setCol(bool key) { onCol = key; }
+	bool getCol() { return onCol; }
 	void destroy(GameObject* gameObject);
 };
 

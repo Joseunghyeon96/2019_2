@@ -7,6 +7,7 @@
 #include <d3dx9.h>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -37,6 +38,8 @@ extern LPDIRECT3DTEXTURE9 enemyBullet;
 extern LPDIRECT3DTEXTURE9 spriteBoss;
 extern LPDIRECT3DTEXTURE9 bulletExplosion;
 extern LPDIRECT3DTEXTURE9 hitBox;
+extern LPDIRECT3DTEXTURE9 eBullet2;
+extern LPDIRECT3DTEXTURE9 speBullet;
 
 enum { MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT };
 

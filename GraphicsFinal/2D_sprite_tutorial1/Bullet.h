@@ -8,6 +8,7 @@ class Bullet
 	bool rePaint;
 	int damage;
 	float speed;
+	bool special;
 	DWORD start = GetTickCount();
 
 public:
@@ -22,5 +23,7 @@ public:
 	bool getRePaint() { return rePaint; }
 	bool getExplosion();
 	void setExplosion(bool key);
+	void setSpecial() {  special = true; }
+	bool getSpecial() { return special; }
 };
 

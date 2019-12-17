@@ -16,6 +16,7 @@ Enemy::~Enemy()
 void Enemy::init(float x, float y, D3DXVECTOR2 moveDir, D3DXVECTOR2 bulletDir)
 {
 	enabled = true;
+	onCol = true;
 	life = 3;
 	enemies.push_back(this);
 	D3DXVec2Normalize(&this->moveDir, &moveDir);
@@ -57,6 +58,7 @@ void Enemy::update()
 	for (auto bullet : bullets) // 모든총알과 충돌체크
 	{
 		if (bullet->getEnabled() == false) continue;
+		if (bullet->getSpecial()) continue;
 		if (onCollision(bullet) == true)
 		{
 

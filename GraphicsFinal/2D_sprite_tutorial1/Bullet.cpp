@@ -1,6 +1,6 @@
 #include "stdafx.h"
+#include <time.h>
 #include "Bullet.h"
-
 
 Bullet::Bullet()
 {
@@ -15,6 +15,7 @@ void Bullet::init(float x, float y,int power)
 {
 	enabled = true;
 	rePaint = true;
+	special = false;
 	explosion = false;
 	damage = power;
 	bullets.push_back(this);
@@ -52,6 +53,24 @@ void Bullet::move()
 
 void Bullet::update()
 {
+	if (special)
+	{
+		if (yPos < 512)
+		{
+			for (int i = 0; i < 24; i++)
+			{
+				Bullet* norBullet = new Bullet;
+				norBullet->init(xPos - 160+ 32 * (i % 8), yPos - 64 * (i / 8), 2);
+			}
+			destroy(this);
+			return;
+		}
+		else
+			move();
+		return;
+	}
+
+
 	if (explosion == true) {
 		DWORD end = GetTickCount();
 		if(end-start>299)

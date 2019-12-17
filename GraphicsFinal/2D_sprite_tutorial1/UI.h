@@ -16,6 +16,7 @@ class UI : public SingletonBase<UI>
 	ID3DXSprite* fontSprite;
 	LPDIRECT3DTEXTURE9 alphabetSprite[7];
 	LPDIRECT3DTEXTURE9 lifeSprite;
+	LPDIRECT3DTEXTURE9 sBulletUI;
 	LPDIRECT3DTEXTURE9 powerUp;
 	LPDIRECT3DTEXTURE9 bulletUI;
 	LPDIRECT3DTEXTURE9 white;

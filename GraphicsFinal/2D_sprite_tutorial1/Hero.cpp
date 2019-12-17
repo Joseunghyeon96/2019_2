@@ -16,6 +16,8 @@ Hero::~Hero()
 
 void Hero::fire()
 {
+	if (autoMove)return;
+
 	if (bullets.size() < 50) //50발이하일때만 생성
 	{
 		if (power == 1) {
@@ -37,15 +39,28 @@ void Hero::fire()
 
 void Hero::super_fire()
 {
+	if (autoMove)return;
+	if (superBullet < 1) return;
+
+	for (EnemyBullet* eBullet : enemyBullets)
+	{
+		eBullet->setCol(false);
+	}
+	shotDelayStart = GetTickCount();
+	Bullet* speBullet = new Bullet;
+	speBullet->init(xPos, yPos - 32, 3);
+	speBullet->setSpecial();
+	superBullet--;
 }
 
 void Hero::move(int i)
 {
 	if (autoMove)
 	{
-			yPos -= 10;
-		if (yPos < 900)
+		yPos -= 10;
+		if (yPos < 900) {
 			autoMove = false;
+		}
 		return;
 	}
 	switch (i)
@@ -81,6 +96,7 @@ void Hero::init(float x, float y)
 	autoMove = true;
 	moveCheck = false;
 	cheat = false;
+	superBullet = 3;
 	power = 1;
 	xPos = x;
 	speed = 2;
@@ -89,6 +105,7 @@ void Hero::init(float x, float y)
 	life = 3;
 	canPowerUp = true;
 	shotDelayEnd = GetTickCount();
+	immortStart = GetTickCount();
 	shotDelayStart=GetTickCount();
 }
 void Hero::collisionCheck()
@@ -96,13 +113,18 @@ void Hero::collisionCheck()
 	if (autoMove)return;
 	if (cheat) return;
 
+	if (GetTickCount() - immortStart < 3300) return; // 맞은지 3.3초이하 면 충돌체크 x
+
 	for (auto enemy : enemies) //모든적과 충돌체크
 	{
+		if (!enemy->getCol()) break;
+
 		if (onCollision(enemy) == true) {
 			destroy(enemy); // 충돌된 적 없어짐
 			power = 1;
 			yPos = 2100;
 			autoMove = true;
+			immortStart = GetTickCount();
 			life--;
 			break;
 		}
@@ -111,12 +133,15 @@ void Hero::collisionCheck()
 
 	for (auto enemyBullet : enemyBullets) //모든적 총알 과 충돌체크
 	{
+		if (!enemyBullet->getCol())break;
+
 		if (onCollision(enemyBullet) == true) {
 			enemyBullet->setActive(false); // 충돌된 적 총알 없어짐
 			power = 1;
 			life--;
 			yPos = 2100;
 			autoMove = true;
+			immortStart = GetTickCount();
 			break;
 		}
 	}
@@ -130,13 +155,7 @@ void Hero::update()
 	{
 		if (KEY_DOWN(0x52))
 		{
-			enabled = true;
-			power = 1;
-			life = 3;
-			score = 0;
-			shotDelayEnd = GetTickCount();
-			shotDelayStart = GetTickCount();
-			canPowerUp = true;
+			init(xPos, yPos);
 		}
 		return;
 	}
@@ -167,6 +186,11 @@ void Hero::update()
 		if(shotDelayEnd-shotDelayStart>200)
 		fire();
 	}
+	if (KEY_DOWN(VK_SHIFT))
+	{
+		if (shotDelayEnd - shotDelayStart > 100)
+			super_fire();
+	}
 	powerUp();
 	collisionCheck();
 	if (life < 1)
@@ -184,11 +208,16 @@ void Hero::powerUp()
 			if (canPowerUp) {
 				canPowerUp = false;
 				temp = GetTickCount();
+				if (superBullet < 3)
+				{
+					superBullet++;
+				}
 				power++;
 			}
 		}
 	}
-	else if(GetTickCount() - temp > 1499)
+
+	else if(GetTickCount() - temp > 2000)
 	{
 		canPowerUp = true;
 	}

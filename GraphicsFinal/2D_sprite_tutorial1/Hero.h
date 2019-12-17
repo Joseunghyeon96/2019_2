@@ -4,6 +4,7 @@ class Hero :
 	public GameObject
 {
 	int power;
+	int superBullet;
 	bool canPowerUp;
 	bool autoMove;
 	float speed;
@@ -11,6 +12,7 @@ class Hero :
 	bool moveCheck;
 	DWORD shotDelayEnd;
 	DWORD shotDelayStart;
+	DWORD immortStart;
 public:
 	Hero();
 	~Hero();
@@ -28,5 +30,6 @@ public:
 	bool getPowerUp() { return canPowerUp; }
 	bool getCheat() { return cheat; }
 	void cheating();
+	int getSB() { return superBullet; }
 };
 

@@ -50,6 +50,20 @@ void UI::init(Hero * hero,Boss* boss)
 		NULL,    // not using 256 colors
 		&white);    // load to sprite
 	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"sBulletUI.png",    // the file name
+		D3DX_DEFAULT,    // default width
+		D3DX_DEFAULT,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sBulletUI);    // load to sprite
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
 		L"BulletUI.png",    // the file name
 		D3DX_DEFAULT_NONPOW2,    // default width
 		D3DX_DEFAULT_NONPOW2,    // default height
@@ -211,6 +225,13 @@ void UI::renderUI(LPD3DXSPRITE d3dspt)
 	{
 		D3DXVECTOR3 lifePos(10 + 34*i, 970 , 0.0f);
 		d3dspt->Draw(lifeSprite, &lifeRect, &lifeCenter, &lifePos, D3DCOLOR_ARGB(255, 255, 255, 255));
+	}
+
+	// superBullet UI
+	for (int i = 0; i < hero->getSB(); i++)
+	{
+		D3DXVECTOR3 lifePos(160 + 34 * i, 970, 0.0f);
+		d3dspt->Draw(sBulletUI, &lifeRect, &lifeCenter, &lifePos, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
 	// Bullet : text
 	RECT bulletTextRect;

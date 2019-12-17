@@ -10,7 +10,6 @@ class Boss :
 	float xSpeed;
 	bool easy2;
 	bool easy3;
-	bool hard_1;
 	bool hard_3;
 	bool hard_4;
 	bool hard_5;

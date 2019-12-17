@@ -14,6 +14,7 @@ EnemyBullet::~EnemyBullet()
 void EnemyBullet::init(float x, float y, D3DXVECTOR2 dir)
 {
 	enabled = true;
+	onCol = true;
 	curve = false;
 	enemyBullets.push_back(this);
 	D3DXVec2Normalize(&direction, &dir);
@@ -27,6 +28,7 @@ void EnemyBullet::init(float x, float y, D3DXVECTOR2 dir)
 void EnemyBullet::init(float x, float y, D3DXVECTOR2 dir, float speed)
 {
 	enabled = true;
+	onCol = true;
 	curve = false;
 	curveAngle = 0;
 	enemyBullets.push_back(this);
@@ -40,6 +42,7 @@ void EnemyBullet::init(float x, float y, D3DXVECTOR2 dir, float speed)
 void EnemyBullet::init(float x, float y, D3DXVECTOR2 dir, float speed, bool curve,float angle)
 {
 	enabled = true;
+	onCol = true;
 	enemyBullets.push_back(this);
 	D3DXVec2Normalize(&direction, &dir);
 	imageSizeX = 10; imageSizeY = 10;
@@ -78,20 +81,15 @@ void EnemyBullet::update()
 void EnemyBullet::destroy(GameObject * gameObject)
 {
 
-	//gameObject->setActive(false);
 	int i = 0;
 	if (dynamic_cast<EnemyBullet *>(gameObject) != nullptr)
 	{
-		for (auto obj : enemyBullets)
-		{
-			if (obj == gameObject)
-			{
-				enemyBullets.erase(enemyBullets.begin() + i);
-				delete obj;
-				obj = nullptr;
-				return;
-			}
-			i++;
-		}
+		enemyBullets.erase(remove_if(enemyBullets.begin(), enemyBullets.end(),
+				[gameObject](GameObject* obj) {return obj == gameObject; })
+				, enemyBullets.end());
+
+			delete gameObject;
+			gameObject = nullptr;
+			return;
 	}
 }
