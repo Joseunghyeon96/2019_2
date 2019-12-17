@@ -7,6 +7,7 @@
 vector<Enemy*> GameObject::enemies;
 vector<Bullet*> GameObject::bullets;
 vector<EnemyBullet*> GameObject::enemyBullets;
+int GameObject::score = 0;
 
 GameObject::GameObject()
 {
@@ -109,7 +110,7 @@ bool GameObject::onCollision(GameObject * gameObject)
 	}
 	else if (gameObject->getXPos() > x&&gameObject->getYPos() < y) // 인자로 들어온 오브젝트의 위치가 내위치 기준 1사분면
 	{
-		if (gameObject->getXPos() < x + 32)
+		if (gameObject->getXPos() < x + imageSizeX / 2)
 		{
 			if (gameObject->getYPos() + imageSizeY > y - imageSizeY / 2)
 			{

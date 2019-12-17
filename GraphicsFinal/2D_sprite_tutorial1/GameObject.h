@@ -17,6 +17,7 @@ protected:
 	int life;
 	float imageSizeX;
 	float imageSizeY;
+	static int score;
 	static vector<Enemy*> enemies;
 	static vector<Bullet*> bullets;
 	static vector<EnemyBullet*> enemyBullets;
@@ -33,6 +34,7 @@ public:
 	float getSizeY() { return imageSizeY; }
 	virtual void destroy(GameObject* gameObject);
 	bool getEnabled() { return enabled; }
+	int getScore() { return score; }
 	virtual void decreaseLife(int x);
 	virtual bool onCollision(GameObject* gameObject);
 	virtual void init(float x, float y);

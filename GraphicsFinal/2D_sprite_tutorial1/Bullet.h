@@ -14,7 +14,6 @@ public:
 	Bullet();
 	~Bullet();
 
-
 	void init(float x, float y,int power);
 	void move();
 	void update();

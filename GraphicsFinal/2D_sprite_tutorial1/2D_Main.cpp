@@ -13,6 +13,7 @@ LPDIRECT3DTEXTURE9 sprite_hero;    // the poi`	`nter to the sprite
 LPDIRECT3DTEXTURE9 sprite_enemy;    // the pointer to the sprite
 LPDIRECT3DTEXTURE9* sprite_bullet;
 LPDIRECT3DTEXTURE9 enemyBullet;
+LPDIRECT3DTEXTURE9 hitBox;
 LPDIRECT3DTEXTURE9 bulletExplosion;
 LPDIRECT3DTEXTURE9 spriteBoss;
 
@@ -82,7 +83,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 
 
-        while ((GetTickCount() - starting_point) < 25);
+       while ((GetTickCount() - starting_point) < 25);
     }
 
     // clean up DirectX and COM
@@ -150,12 +151,26 @@ void initD3D(HWND hWnd)
                                 NULL,    // no image info struct
                                 NULL,    // not using 256 colors
                                 &sprite);    // load to sprite
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"hitbox.png",    // the file name
+		D3DX_DEFAULT_NONPOW2,    // default width
+		D3DX_DEFAULT_NONPOW2,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&hitBox);    // load to sprite
 
 
     D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
                                 L"hero.png",    // the file name
-                                D3DX_DEFAULT,    // default width
-                                D3DX_DEFAULT,    // default height
+								D3DX_DEFAULT_NONPOW2,    // default width
+								D3DX_DEFAULT_NONPOW2,    // default height
                                 D3DX_DEFAULT,    // no mip mapping
                                 NULL,    // regular usage
                                 D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
@@ -229,8 +244,8 @@ void initD3D(HWND hWnd)
 		&sprite_bullet[2]);    // load to sprite
 	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
 								L"Boss.png",    // the file name
-								D3DX_DEFAULT,    // default width
-								D3DX_DEFAULT,    // default height
+								D3DX_DEFAULT_NONPOW2,    // default width
+								D3DX_DEFAULT_NONPOW2,    // default height
 								D3DX_DEFAULT,    // no mip mapping
 								NULL,    // regular usage
 								D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
@@ -290,6 +305,7 @@ void cleanD3D(void)
 	sprite_enemy->Release();
 	bulletExplosion->Release();
 	enemyBullet->Release();
+	hitBox->Release();
 	for (int i = 0; i < 3; i++)
 	{
 		sprite_bullet[i]->Release();

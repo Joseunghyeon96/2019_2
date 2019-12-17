@@ -4,6 +4,11 @@ class Hero :
 	public GameObject
 {
 	int power;
+	bool canPowerUp;
+	bool autoMove;
+	float speed;
+	bool cheat;
+	bool moveCheck;
 	DWORD shotDelayEnd;
 	DWORD shotDelayStart;
 public:
@@ -18,5 +23,10 @@ public:
 	void init(float x, float y);
 	void collisionCheck();
 	void update();
+	void powerUp();
+	void setMoveCheck(bool key) { moveCheck = key; }
+	bool getPowerUp() { return canPowerUp; }
+	bool getCheat() { return cheat; }
+	void cheating();
 };
 

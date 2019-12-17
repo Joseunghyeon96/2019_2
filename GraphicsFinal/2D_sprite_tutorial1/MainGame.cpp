@@ -25,7 +25,7 @@ void MainGame::initGame()
 
 	//보스초기화 
 	boss = new Boss;
-	boss->init(400, -200);
+	boss->init(400, 100 ,hero);
 
 	ui = UI::GetSingleton();
 	ui->init(hero,boss);
@@ -54,10 +54,16 @@ void MainGame::renderFrame()
 
 	//주인공 
 	RECT part;
-	SetRect(&part, 0, 0, 64, 64);
+	SetRect(&part, 0, 0, 64, 50);
 	D3DXVECTOR3 center(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
-	D3DXVECTOR3 position = D3DXVECTOR3(hero->getXPos(), hero->getYPos(), 0.0f);    // position at 50, 50 with no depth
+	D3DXVECTOR3 position = D3DXVECTOR3(hero->getXPos()-20.5, hero->getYPos()-10, 0.0f);    // position at 50, 50 with no depth
 	d3dspt->Draw(sprite_hero, &part, &center, &position, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+	RECT hitBoxRt;
+	SetRect(&hitBoxRt, 0, 0, 24, 24);
+	D3DXVECTOR3 hitBoxCenter(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
+	D3DXVECTOR3 hitBoxPos = D3DXVECTOR3(hero->getXPos(), hero->getYPos(), 0.0f);    // position at 50, 50 with no depth
+	d3dspt->Draw(hitBox, &hitBoxRt, &hitBoxCenter, &hitBoxPos, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	////총알 
 	for (Bullet* bullet : bullets) {
@@ -88,7 +94,7 @@ void MainGame::renderFrame()
 
 	//보스
 	RECT bossRect;
-	SetRect(&bossRect, 0, 0, 512, 256);
+	SetRect(&bossRect, 0, 0,80, 136);
 	D3DXVECTOR3 bossCenter(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
 	D3DXVECTOR3 bossPos(boss->getXPos(), boss->getYPos(), 0.0f);    // position at 50, 50 with no depth
 	d3dspt->Draw(spriteBoss,&bossRect, &bossCenter, &bossPos, D3DCOLOR_ARGB(255, 255, 255, 255));
@@ -147,7 +153,8 @@ void MainGame::Release()
 void MainGame::update()
 {
 	//주인공 처리 
-	hero->update();
+	hero->update(); // 전체 업데이트
+	hero->setMoveCheck(true); // 이동을 2씩 한프레임에 최대 12칸으로 제한하기위함
 
 	//총알 처리 
 	auto& bullets = GameObject::getBullets();
@@ -155,8 +162,12 @@ void MainGame::update()
 		bullet->update();
 	}
 
+	hero->update(); // 이동만 업데이트1
+
 	//보스
 	boss->update();
+
+	hero->update();// 이동만 업데이트2
 
 	//적들 처리 
 	auto& enemies = GameObject::getEnemies();
@@ -165,10 +176,18 @@ void MainGame::update()
 		enemy->update();
 	}
 
+	hero->update();// 이동만 업데이트3
+
+
 	auto& enemyBullets = GameObject::getEnemyBullets();
 	for (EnemyBullet* eBullet : enemyBullets)
 	{
 		eBullet->update();
 	}
+
+	hero->update();// 이동만 업데이트4
+	hero->update();// 이동만 업데이트5
+	hero->setMoveCheck(false); // 무브체크가 false일때만 전체업데이트 .. 즉 한프레임에 전체업데이트
+	                           //1번 무브업데이트 6번 이루어짐
 
 }

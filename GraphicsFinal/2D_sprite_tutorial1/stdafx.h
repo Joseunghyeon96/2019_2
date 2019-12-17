@@ -24,6 +24,7 @@ using namespace std;
 
 #include "MainGame.h"
 // global declarations
+float randomRange(float min, float max);
 
 extern LPDIRECT3D9 d3d;    // the pointer to our Direct3D interface
 extern LPDIRECT3DDEVICE9 d3ddev;    // the pointer to the device class
@@ -35,5 +36,7 @@ extern LPDIRECT3DTEXTURE9* sprite_bullet;
 extern LPDIRECT3DTEXTURE9 enemyBullet;
 extern LPDIRECT3DTEXTURE9 spriteBoss;
 extern LPDIRECT3DTEXTURE9 bulletExplosion;
+extern LPDIRECT3DTEXTURE9 hitBox;
+
 enum { MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT };
 
