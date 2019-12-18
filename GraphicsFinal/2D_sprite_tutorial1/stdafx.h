@@ -40,6 +40,8 @@ extern LPDIRECT3DTEXTURE9 bulletExplosion;
 extern LPDIRECT3DTEXTURE9 hitBox;
 extern LPDIRECT3DTEXTURE9 eBullet2;
 extern LPDIRECT3DTEXTURE9 speBullet;
+extern LPDIRECT3DTEXTURE9 gameStart;
+extern LPDIRECT3DTEXTURE9 gameClear;
 
 enum { MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT };
 

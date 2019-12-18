@@ -308,7 +308,16 @@ void UI::renderUI(LPD3DXSPRITE d3dspt)
 
 		}
 	}
+	if (boss->getEnabled() == false)
+	{
+		RECT clearRect;
+		SetRect(&clearRect, 0, 0, 600, 400);
+		D3DXVECTOR3 clearCenter(0.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 clearPos(200.0f, 300.0f, 0.0f);
+		d3dspt->Draw(gameClear, &clearRect, &clearCenter, &clearPos, D3DCOLOR_ARGB(255, 255, 255, 255));
 
+
+	}
 	if (fontSprite)
 	{
 		int frame = 0;

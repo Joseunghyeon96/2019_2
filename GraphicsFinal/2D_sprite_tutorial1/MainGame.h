@@ -11,6 +11,7 @@ class MainGame
 	Hero* hero;
 	Boss* boss;
 
+	bool isPlay;
 	UI* ui;
 public:
 	MainGame();

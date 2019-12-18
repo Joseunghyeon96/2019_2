@@ -18,6 +18,8 @@ LPDIRECT3DTEXTURE9 hitBox;
 LPDIRECT3DTEXTURE9 speBullet;
 LPDIRECT3DTEXTURE9 bulletExplosion;
 LPDIRECT3DTEXTURE9 spriteBoss;
+LPDIRECT3DTEXTURE9 gameStart;
+LPDIRECT3DTEXTURE9 gameClear;
 
 // function prototypes
 void initD3D(HWND hWnd);    // sets up and initializes Direct3D 
@@ -55,7 +57,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     // set up and initialize Direct3D
     initD3D(hWnd);
-	MG->initGame();
 
 	//게임 오브젝트 초기화 
 
@@ -316,6 +317,36 @@ void initD3D(HWND hWnd)
 		NULL,    // not using 256 colors
 		&enemyBullet);    // load to sprite
 
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"gamestart.png",    // the file name
+		D3DX_DEFAULT_NONPOW2,    // default width
+		D3DX_DEFAULT_NONPOW2,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&gameStart);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"gameclear.png",    // the file name
+		D3DX_DEFAULT_NONPOW2,    // default width
+		D3DX_DEFAULT_NONPOW2,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&gameClear);    // load to sprite
+
     return;
 }
 
@@ -336,6 +367,8 @@ void cleanD3D(void)
 	enemyBullet->Release();
 	hitBox->Release();
 	eBullet2->Release();
+	gameStart->Release();
+	gameClear->Release();
 	for (int i = 0; i < 3; i++)
 	{
 		sprite_bullet[i]->Release();
