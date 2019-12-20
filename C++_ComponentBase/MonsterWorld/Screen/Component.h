@@ -27,6 +27,7 @@ protected:
 	virtual void lateUpdate();
 	virtual void onDisable();
 	virtual void onDestroy();
+	virtual void draw() {}
 
 };
 

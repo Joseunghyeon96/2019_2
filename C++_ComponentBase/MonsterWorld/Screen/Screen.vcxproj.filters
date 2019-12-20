@@ -69,13 +69,7 @@
     <ClCompile Include="MoveScript.cpp">
       <Filter>Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterScript.cpp">
-      <Filter>Component\Script</Filter>
-    </ClCompile>
     <ClCompile Include="MapScript.cpp">
-      <Filter>Component\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="FoodScript.cpp">
       <Filter>Component\Script</Filter>
     </ClCompile>
     <ClCompile Include="UIScript.cpp">
@@ -119,13 +113,7 @@
     <ClInclude Include="MoveScript.h">
       <Filter>Component\Script</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterScript.h">
-      <Filter>Component\Script</Filter>
-    </ClInclude>
     <ClInclude Include="MapScript.h">
-      <Filter>Component\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="FoodScript.h">
       <Filter>Component\Script</Filter>
     </ClInclude>
     <ClInclude Include="UIScript.h">

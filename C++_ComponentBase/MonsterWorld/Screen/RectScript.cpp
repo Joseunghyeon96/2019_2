@@ -32,6 +32,5 @@ void RectScript::start()
 	rect[(MAP_SIZE_X + 2)*(MAP_SIZE_Y + 2)-1] = '\xBC';
 
 	gameObject->setPosition(Vector2(0, 0));
-	gameObject->setFace(rect);
 	gameObject->setScale(Vector2(MAP_SIZE_X+2, MAP_SIZE_Y+2));
 }

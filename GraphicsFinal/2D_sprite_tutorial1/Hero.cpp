@@ -103,6 +103,7 @@ void Hero::init(float x, float y)
 	yPos = 1200;
 	imageSizeX = 24; imageSizeY = 24;
 	life = 3;
+	score = 0;
 	canPowerUp = true;
 	shotDelayEnd = GetTickCount();
 	immortStart = GetTickCount();

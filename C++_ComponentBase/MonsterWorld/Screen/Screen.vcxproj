@@ -147,13 +147,11 @@
   <ItemGroup>
     <ClCompile Include="Borland.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="FoodScript.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapScript.cpp" />
-    <ClCompile Include="MonsterScript.cpp" />
     <ClCompile Include="MoveScript.cpp" />
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="RectScript.cpp" />
@@ -168,12 +166,10 @@
   <ItemGroup>
     <ClInclude Include="Borland.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="FoodScript.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="MapScript.h" />
-    <ClInclude Include="MonsterScript.h" />
     <ClInclude Include="MoveScript.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="RectScript.h" />

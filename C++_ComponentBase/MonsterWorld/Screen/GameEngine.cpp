@@ -25,46 +25,19 @@ void GameEngine::mainLoop()
 {
 	auto& objs = GameObject::gameObjects;
 	
-	GameObject rect("rect");
-	rect.addComponent<RectScript>();
-	objs.push_back(&rect);
 
-	GameObject UI("UI", "", nullptr, "UI");
+
+	GameObject UI("UI", nullptr, "UI");
 	UI.addComponent<UIScript>();
 	objs.push_back(&UI);
 
-	GameObject map("map");
+	GameObject rect("rect", &UI, "rect");
+	rect.addComponent<RectScript>();
+	objs.push_back(&rect);
+
+	GameObject map("map",nullptr,"map");
 	map.addComponent<MapScript>();
 	objs.push_back(&map);
-
-	GameObject monster("monster","M", &map,"monster");
-	monster.addComponent<MonsterScript>();
-	monster.addComponent<MoveScript>();
-	objs.push_back(&monster);
-
-	GameObject ghost("ghost", "G", &map, "monster");
-	ghost.addComponent<MonsterScript>();
-	ghost.addComponent<MoveScript>();
-	objs.push_back(&ghost);
-
-	GameObject hellBoy("hellBoy", "B", &map, "monster");
-	hellBoy.addComponent<MonsterScript>();
-	hellBoy.addComponent<MoveScript>();
-	objs.push_back(&hellBoy);
-
-	GameObject king("king", "K", &map, "monster");
-	king.addComponent<MonsterScript>();
-	king.addComponent<MoveScript>();
-	objs.push_back(&king);
-
-
-	for (int i = 0; i < MAP_SIZE_X*MAP_SIZE_Y; i++) {
-		char* face = "\xFE";
-
-		GameObject *food = new GameObject("food", face, &map, "food");
-		food->addComponent<FoodScript>();
-		objs.push_back(food);
-	}
 
 	for (auto obj : objs)
 	{
@@ -88,16 +61,6 @@ void GameEngine::mainLoop()
 		}
 		screen.render();
 
-		int i = 0;
-		for (auto obj : objs)
-		{
-			Borland::gotoxy(Vector2(20, 50));
-			i++;
-			if (i > 180)
-			{
-				printf("%d", i);
-			}
-		}
 		Sleep(1000);
 
 		Input::EndOfFrame();

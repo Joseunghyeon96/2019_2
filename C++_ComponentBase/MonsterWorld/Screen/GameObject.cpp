@@ -5,13 +5,11 @@
 
 vector<GameObject*> GameObject::gameObjects;
 
-GameObject::GameObject(const string& name,const char* face, GameObject* parent, const string& tag)
-	: name(name),face(new char[strlen(face)+1]),tag(tag), enabled(true), parent(parent)
+GameObject::GameObject(const string& name, GameObject* parent, const string& tag)
+	: name(name),tag(tag), enabled(true), parent(parent)
 	,screen(Screen::getInstance()),transform(new Transform(this)) 
 {
 	components.clear();
-	strncpy(this->face, face, strlen(face) + 1);
-	this->face[strlen(face)] = '\0';
 	components.push_back(transform);
 }
 
@@ -54,7 +52,11 @@ void GameObject::traverseDraw()
 {
 
 	if (enabled == false) return;
-	screen.draw(face,transform->getScale().X(), (transform->getScale()).Y(), transform->getPos());
+	
+	for (auto comp  :components)
+	{
+		comp->draw();
+	}
 
 
 	for (auto child : children)
@@ -104,14 +106,6 @@ vector<GameObject *> GameObject::allFind(const string & path)
 	return finds;
 }
 
-void GameObject::setFace(const char * face)
-{
-	delete(this->face);
-	this->face = new char[strlen(face) + 1];
-	strncpy(this->face, face, strlen(face) + 1);
-	this->face[strlen(face)] = '\0';
-}
-
 void GameObject::setParent(GameObject * parent)
 {
 	{
@@ -120,25 +114,17 @@ void GameObject::setParent(GameObject * parent)
 
 }
 
-void GameObject::setScore(int score)
-{
-	this->score = score;
-}
-
 void GameObject::destroy(GameObject * gameObject)
 {
-	int i = 0;
-	for (auto obj : gameObjects)
-	{
-		if (obj == gameObject)
-		{
-			gameObjects.erase(gameObjects.begin()+i);
-			delete obj;
-			obj = nullptr;
-			return;
-		}
-		i++;
-	}
+	if (gameObject == nullptr) return;
+
+
+	gameObjects.erase(remove_if(gameObjects.begin(), gameObjects.end()
+		, [gameObject](GameObject* obj) {return gameObject == obj; }), gameObjects.end());
+	delete gameObject;
+	gameObject = nullptr;
+	return;
+	
 }
 
 vector<GameObject*> GameObject::getObjs()

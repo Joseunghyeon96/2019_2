@@ -7,7 +7,6 @@ class Transform;
 class GameObject
 {
 	bool		enabled;
-	char* face;
 	Screen screen;
 	string		name;
 	string		tag;
@@ -17,10 +16,9 @@ class GameObject
 	static vector<GameObject *> gameObjects;
 	friend class GameEngine;
 	Transform* transform;
-	int score;
 
 public:
-	GameObject(const string& name,const char* face = " ",  GameObject* parent = nullptr, const string& tag = "");
+	GameObject(const string& name, GameObject* parent = nullptr, const string& tag = "");
 	~GameObject();
 
 	void traverseStart();
@@ -32,12 +30,8 @@ public:
 	void setScale(const Vector2& scale);
 	string getName() const { return name; }
 	static GameObject* Find(const string& path);
-	void setFace(const char* face);
-	char* getFace() { return face; }
 	void setParent(GameObject* parent);
 	GameObject* getParent() { return parent; }
-	int getSocre() { return score; }
-	void setScore(int score);
 	void destroy(GameObject* gameObject);
 	static vector<GameObject*> allFind(const string& path);
 	static vector<GameObject*> getObjs();
