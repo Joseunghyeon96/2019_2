@@ -31,6 +31,12 @@
     <Filter Include="Component\Script">
       <UniqueIdentifier>{8912f5bb-20b2-4f1d-a82d-7d1547053f14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Script\NotDraw">
+      <UniqueIdentifier>{a007acea-79f8-4e9f-b469-3260946498a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\IncludeDrawScript">
+      <UniqueIdentifier>{76ea3a5b-e5a6-4d5d-b336-729b6dcec361}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,17 +72,23 @@
     <ClCompile Include="GameEngine.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="MoveScript.cpp">
-      <Filter>Component\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="MapScript.cpp">
-      <Filter>Component\Script</Filter>
+    <ClCompile Include="RectScript.cpp">
+      <Filter>Component\Script\IncludeDrawScript</Filter>
     </ClCompile>
     <ClCompile Include="UIScript.cpp">
-      <Filter>Component\Script</Filter>
+      <Filter>Component\Script\IncludeDrawScript</Filter>
     </ClCompile>
-    <ClCompile Include="RectScript.cpp">
-      <Filter>Component\Script</Filter>
+    <ClCompile Include="MapScript.cpp">
+      <Filter>Component\Script\IncludeDrawScript</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveScript.cpp">
+      <Filter>Component\Script\NotDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeScript.cpp">
+      <Filter>Component\Script\NotDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockScript.cpp">
+      <Filter>Component\Script\IncludeDrawScript</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,17 +122,23 @@
     <ClInclude Include="GameEngine.h">
       <Filter>GameEngine</Filter>
     </ClInclude>
-    <ClInclude Include="MoveScript.h">
-      <Filter>Component\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="MapScript.h">
-      <Filter>Component\Script</Filter>
+    <ClInclude Include="RectScript.h">
+      <Filter>Component\Script\IncludeDrawScript</Filter>
     </ClInclude>
     <ClInclude Include="UIScript.h">
-      <Filter>Component\Script</Filter>
+      <Filter>Component\Script\IncludeDrawScript</Filter>
     </ClInclude>
-    <ClInclude Include="RectScript.h">
-      <Filter>Component\Script</Filter>
+    <ClInclude Include="MapScript.h">
+      <Filter>Component\Script\IncludeDrawScript</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveScript.h">
+      <Filter>Component\Script\NotDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeScript.h">
+      <Filter>Component\Script\NotDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockScript.h">
+      <Filter>Component\Script\IncludeDrawScript</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

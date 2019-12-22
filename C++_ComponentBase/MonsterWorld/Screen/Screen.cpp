@@ -49,6 +49,38 @@ void Screen::draw(const char * shape, int w, int h, const Vector2& pos)
 	}
 }
 
+void Screen::blockDraw(const char * shape, int width, int height, const Vector2 & pos)
+{
+
+	if (!shape) return;
+	for (int h = 0; h < height; h++)
+	{
+		for (int w = 0; w < width; w++)
+		{
+			if (shape[w + (width*h)] != '\xDB') continue;
+
+
+			canvas[pos.X() + w + (pos.Y()+ h)*(this->width+1)] = shape[w + (width*h)];
+		}
+	}
+
+}
+
+void Screen::ghostBlockDraw(const char * shape, int width, int height, const Vector2 & pos)
+{
+	if (!shape) return;
+	for (int h = 0; h < height; h++)
+	{
+		for (int w = 0; w < width; w++)
+		{
+			if (shape[w + (width*h)] != '\xDB') continue;
+
+
+			canvas[pos.X() + w + (pos.Y() + h)*(this->width + 1)] = '\xB0';
+		}
+	}
+}
+
 void Screen::render()
 {
 	for (int i = 0; i < height; i++)

@@ -2,12 +2,11 @@
 #include "GameEngine.h"
 #include "GameObject.h"
 #include "MoveScript.h"
-#include "FoodScript.h"
 #include "MapScript.h"
 #include "UIScript.h"
 #include "RectScript.h"
-#include "MonsterScript.h"
-
+#include "BlockScript.h"
+#include "ShapeScript.h"
 
 
 GameEngine* GameEngine::instance = nullptr;
@@ -24,20 +23,25 @@ GameEngine & GameEngine::getInstance()
 void GameEngine::mainLoop()
 {
 	auto& objs = GameObject::gameObjects;
-	
 
 
-	GameObject UI("UI", nullptr, "UI");
-	UI.addComponent<UIScript>();
-	objs.push_back(&UI);
-
-	GameObject rect("rect", &UI, "rect");
+	GameObject rect("rect", nullptr,"rect");
 	rect.addComponent<RectScript>();
 	objs.push_back(&rect);
 
 	GameObject map("map",nullptr,"map");
 	map.addComponent<MapScript>();
 	objs.push_back(&map);
+
+	GameObject block("block", &map, "block");
+	block.addComponent<ShapeScript>();
+	block.addComponent<BlockScript>();
+	block.addComponent<MoveScript>();
+	objs.push_back(&block);
+
+	GameObject UI("UI", nullptr, "UI");
+	UI.addComponent<UIScript>();
+	objs.push_back(&UI);
 
 	for (auto obj : objs)
 	{
@@ -51,7 +55,11 @@ void GameEngine::mainLoop()
 		{
 			obj->traverseUpdate();
 		}
-		// erase in active objects
+		// lateUpdate
+		for (auto obj : objs)
+		{
+			obj->traverseLateUpdate();
+		}
 
 		// draw
 		for (auto obj : objs)
@@ -60,8 +68,7 @@ void GameEngine::mainLoop()
 		
 		}
 		screen.render();
-
-		Sleep(1000);
+		Sleep(80);
 
 		Input::EndOfFrame();
 	}

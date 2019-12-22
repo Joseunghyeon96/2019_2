@@ -4,7 +4,7 @@
 
 
 RectScript::RectScript(GameObject* gameObject)
-	:Component(gameObject),rect(new char[(MAP_SIZE_X+2)*(MAP_SIZE_Y+2)+1])
+	:Component(gameObject),rect(new char[(MAP_SIZE_X+2)*(MAP_SIZE_Y+2)+1]),screen(Screen::getInstance())
 {
 	memset(rect, ' ', (MAP_SIZE_X + 2)*(MAP_SIZE_Y+2));
 	rect[(MAP_SIZE_X + 2)*(MAP_SIZE_Y + 2)] = '\0';
@@ -32,5 +32,13 @@ void RectScript::start()
 	rect[(MAP_SIZE_X + 2)*(MAP_SIZE_Y + 2)-1] = '\xBC';
 
 	gameObject->setPosition(Vector2(0, 0));
+	gameObject->setShape(rect);
 	gameObject->setScale(Vector2(MAP_SIZE_X+2, MAP_SIZE_Y+2));
+}
+
+void RectScript::draw()
+{
+	screen.draw(gameObject->getShape().c_str()
+				, gameObject->getScale().X(), gameObject->getScale().Y(),
+				gameObject->getPosition());
 }

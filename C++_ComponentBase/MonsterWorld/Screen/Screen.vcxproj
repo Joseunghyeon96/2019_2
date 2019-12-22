@@ -42,7 +42,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BlockScript.cpp" />
     <ClCompile Include="Borland.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameEngine.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="RectScript.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="ShapeScript.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -164,6 +166,7 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BlockScript.h" />
     <ClInclude Include="Borland.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameEngine.h" />
@@ -174,6 +177,7 @@
     <ClInclude Include="MyString.h" />
     <ClInclude Include="RectScript.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="ShapeScript.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UIScript.h" />

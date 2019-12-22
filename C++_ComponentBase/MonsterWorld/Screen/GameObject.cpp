@@ -5,8 +5,8 @@
 
 vector<GameObject*> GameObject::gameObjects;
 
-GameObject::GameObject(const string& name, GameObject* parent, const string& tag)
-	: name(name),tag(tag), enabled(true), parent(parent)
+GameObject::GameObject(const string& name, GameObject* parent, const string& tag,const string& shape)
+	: name(name),tag(tag), enabled(true), parent(parent),shape(shape)
 	,screen(Screen::getInstance()),transform(new Transform(this)) 
 {
 	components.clear();
@@ -44,6 +44,22 @@ void GameObject::traverseUpdate()
 	for (auto child : children)
 	{
 		child->traverseUpdate();
+
+	}
+}
+
+void GameObject::traverseLateUpdate()
+{
+	if (enabled == false) return;
+
+	for (auto comp : components)
+	{
+
+		comp->lateUpdate();
+	}
+	for (auto child : children)
+	{
+		child->traverseLateUpdate();
 
 	}
 }
@@ -92,6 +108,8 @@ GameObject * GameObject::Find(const string & path)
 		if (gameObject->name == path)
 			return gameObject;
 	}
+
+	return nullptr;
 }
 
 vector<GameObject *> GameObject::allFind(const string & path)

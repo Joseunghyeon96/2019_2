@@ -1,19 +1,21 @@
 #pragma once
 #include "Component.h"
+
+struct Block;
+
 class UIScript :
 	public Component
 {
-
-	vector<string*> monsterUI;
-	int foodNum;
-	string* food;
 	char* ui;
+	Block* nextBlockInUI;
 public:
 	UIScript(GameObject* gameObject);
 	~UIScript();
 
 	void start();
 	void update();
-	void decreaseFoodNum();
+	void lateUpdate();
+	void setNextBlock(Block* nBlock) { nextBlockInUI = nBlock; }
+	void draw();
 };
 

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Transform.h"
 
 class Component;
 class Transform;
@@ -10,6 +10,7 @@ class GameObject
 	Screen screen;
 	string		name;
 	string		tag;
+	string		shape;
 	GameObject* parent;
 	vector<GameObject*> children;
 	vector<Component*> components;
@@ -18,11 +19,12 @@ class GameObject
 	Transform* transform;
 
 public:
-	GameObject(const string& name, GameObject* parent = nullptr, const string& tag = "");
+	GameObject(const string& name, GameObject* parent = nullptr, const string& tag = "",const string& shape="");
 	~GameObject();
 
 	void traverseStart();
 	void traverseUpdate();
+	void traverseLateUpdate();
 	void traverseDraw();
 	Transform* getTransform();
 	void setTransform(Transform transform);
@@ -35,6 +37,14 @@ public:
 	void destroy(GameObject* gameObject);
 	static vector<GameObject*> allFind(const string& path);
 	static vector<GameObject*> getObjs();
+
+	Vector2& getScale() { return transform->getScale(); }
+	Vector2& getPosition() { return transform->getPos(); }
+	void setShape(const string& shape)
+	{
+		this->shape = shape;
+	}
+	string& getShape() { return shape; }
 
 
 	template<typename T>
