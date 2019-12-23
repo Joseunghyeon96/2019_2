@@ -30,6 +30,6 @@ public:
 	void buildBlock();
 	bool buildCheck();
 
-	void setNextBlockToUI();
+	Block* getNextBlockToUI();
 };
 

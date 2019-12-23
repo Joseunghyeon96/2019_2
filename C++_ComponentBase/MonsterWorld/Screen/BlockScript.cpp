@@ -63,7 +63,6 @@ void BlockScript::lateUpdate()
 	if (buildCheck()) {
 		buildBlock();
 		setRandomBlock();
-		setNextBlockToUI();
 	}
 }
 
@@ -184,11 +183,9 @@ bool BlockScript::buildCheck()
 	return false;
 }
 
-void BlockScript::setNextBlockToUI()
+Block* BlockScript::getNextBlockToUI()
 {
-
-	UIScript* UI = static_cast<UIScript *>(gameObject->Find("UI")->getComponent<UIScript>());
-	UI->setNextBlock(*nextBlock.begin());
+	return nextBlock[0];
 }
 
 

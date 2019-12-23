@@ -8,6 +8,7 @@ class UIScript :
 {
 	char* ui;
 	Block* nextBlockInUI;
+	Screen& screen;
 public:
 	UIScript(GameObject* gameObject);
 	~UIScript();
@@ -15,7 +16,6 @@ public:
 	void start();
 	void update();
 	void lateUpdate();
-	void setNextBlock(Block* nBlock) { nextBlockInUI = nBlock; }
 	void draw();
 };
 
